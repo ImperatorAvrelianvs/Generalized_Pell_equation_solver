@@ -2,9 +2,9 @@
 
 A comprehensive exploration of integer solutions to the generalized Pell equation
 
-\[
-x^2 \;-\; D\,y^2 \;=\; N
-\]
+\{
+x^2 - Dy^2 = N
+\}
 
 for non‑square \(D\in[2,100)\), \(N\in[-100,100]\).  
 This repository contains:
