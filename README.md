@@ -6,7 +6,7 @@ A comprehensive exploration of integer solutions to the generalized Pell equatio
 x^2 - Dy^2 = N
 \}
 
-for non‑square \(D\in[2,100)\), \(N\in[-100,100]\).  
+for non‑square D and integer N.  
 This repository contains:
 - **Dataset**: Monte‑Carlo–generated CSV of \((D,N,x,y)\) plus `num_classes` (number of equivalence classes).
 - **Notebooks**: Data processing, visualization, statistical summaries, outlier detection, clustering, and ML modeling in Google Colab.
