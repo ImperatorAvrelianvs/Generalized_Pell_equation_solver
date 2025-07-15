@@ -1,119 +1,123 @@
-# Generalized Pell Equation Solutions Analysis
+# 📘 Generalized Pell Equation Solutions Analysis
 
-A comprehensive exploration of integer solutions to the generalized Pell equation
+A comprehensive exploration of integer solutions to the generalized Pell equation:
 
-\{
-x^2 - Dy^2 = N
-\}
+<p align="center"><code><strong>x² − Dy² = N</strong></code></p>
 
-for non‑square D and integer N.  
-This repository contains:
-- **Dataset**: Monte‑Carlo–generated CSV of \((D,N,x,y)\) plus `num_classes` (number of equivalence classes).
-- **Notebooks**: Data processing, visualization, statistical summaries, outlier detection, clustering, and ML modeling in Google Colab.
-- **Results**: Key insights and figures illustrating the rich behavior of Pell solutions and the challenges in predicting solution structure.
+for non‑square integers `D` and arbitrary integers `N`.
 
 ---
 
-## 📑 Dataset
+## 📂 Repository Contents
 
-- **Rows**: 1000 trials of random \((D,N)\).
+- **Dataset**: Monte Carlo–generated CSV of `(D, N, x, y)` with `num_classes` (number of equivalence classes).
+- **Notebooks**: Google Colab notebooks for data cleaning, visualization, statistical analysis, outlier detection, clustering, and ML modeling.
+- **Results**: Key insights and rich figures that capture the behavior of solutions and highlight prediction challenges.
+
+---
+
+## 📑 Dataset Overview
+
+- **Trials**: 1000 randomly generated `(D, N)` pairs.
 - **Columns**:
-  - `D` – positive non‑square integer (2–99)
-  - `N` – nonzero integer (−100 to +100)
-  - `num_classes` – number of equivalence classes of integer solutions for that \((D,N)\)
-  - `x, y` – one representative solution per class, extended by powers of the fundamental unit
-- **Zero‑solution cases**: 824 trials produced no solutions (`num_classes = 0`, `x=y=0`).
+  - `D`: Positive non-square integer (2–99)
+  - `N`: Non-zero integer (−100 to +100)
+  - `num_classes`: Number of equivalence classes of integer solutions for the pair `(D, N)`
+  - `x`, `y`: One representative solution per class (extended using the fundamental unit)
+
+- **Zero-solution cases**: 824 entries have no solution (`num_classes = 0`, `x = y = 0`).
 
 ---
 
-## 🔍 Exploratory Analysis
+## 🔍 Exploratory Data Analysis
 
-1. **Distributions**  
-   - `D` and `N` span their ranges nearly uniformly.  
-   - `num_classes` is heavily skewed toward 2 (most solvable \((D,N)\) have exactly two classes).  
-   - \(\log_{10}|x|\), \(\log_{10}|y|\) show a heavy right tail: a few solutions reach hundreds of digits, while most remain modest.
+### 1. Distributions
 
-2. **Correlations**  
-   - \(\log|x|\) vs. \(\log|y|\): almost perfectly correlated.  
-   - Moderate correlation between `D` and solution size (larger \(D\) → larger minimal solutions).  
-   - **Weak**/negligible linear correlation of \((D,N)\) with `num_classes`.
+- `D` and `N` values are nearly uniform across their ranges.
+- `num_classes` distribution is heavily skewed toward 2 — most solvable cases yield exactly two equivalence classes.
+- The values of `log₁₀|x|` and `log₁₀|y|` exhibit a long right tail:
+  - Most solutions are modest.
+  - A few extend to hundreds of digits.
 
-3. **Scatter & Heatmap**  
-   - Scatterplot of \((D,N)\) colored by `num_classes` shows intermingled class counts—no simple clustering by \((D,N)\).  
-   - Feature‐correlation heatmap confirms that only solution size features cluster strongly.
+### 2. Correlations
+
+- `log|x|` and `log|y|`: near-perfect correlation.
+- Moderate correlation between `D` and the size of minimal solutions.
+- Weak or negligible linear correlation of `(D, N)` with `num_classes`.
+
+### 3. Scatter & Heatmaps
+
+- Scatterplot of `(D, N)` colored by `num_classes` shows no clear clustering.
+- Heatmap of pairwise feature correlations reveals strong grouping only among solution magnitude features.
 
 ---
 
 ## 📊 Visualizations
 
-> _All figures are in the `figures/` folder or embedded in the Colab notebook._
+> _All figures are saved in the `/figures/` folder or embedded in the Colab notebooks._
 
-- **Histogram of** `D`, `N`, `num_classes`
-- **Density plots** of \(\log_{10}|x|\) and \(\log_{10}|y|\)
-- **Scatter** \((D,N)\) → `num_classes`
-- **Heatmap** of pairwise correlations
-- **Boxplots** highlighting the extreme spread of solution sizes
-
----
-
-## ⚠️ Outlier & Anomaly Detection
-
-- **High class counts** (5–6) are rare. Example \((D,N)\) with `num_classes = 6`:  
-  - \((5,-76)\), \((53,-52)\), \((58,63)\), \((61,52)\), \((85,-76)\)  
-- **Astronomical solutions**:  
-  - E.g. \((D,N) = (61,52)\) yields minimal \(x,y\) with \(\sim\!200\) digits.  
-- These extremes reflect deep number‑theoretic phenomena, not data errors.
+- Histograms of `D`, `N`, and `num_classes`
+- Density plots of `log₁₀|x|` and `log₁₀|y|`
+- Scatterplots of `(D, N)` → `num_classes`
+- Correlation heatmaps
+- Boxplots illustrating solution size spread
 
 ---
 
-## 🧮 Regression & Clustering
+## ⚠️ Outliers & Anomalies
 
-- **Linear / Polynomial Regression** on \((D,N)\) → `num_classes`:  
-  - \(R^2\approx0.01\) (linear), \(R^2\approx0.07\) (quadratic).  
-- **K‑means & DBSCAN** on \((D,N)\) or \((\log|x|,\log|y|)\):  
-  - Separates trivial “no‑solution” vs. “solvable” groups, or by solution magnitude, but not by class count.
+- **Rare high class counts** (5 or 6 classes) are found in cases like:
+  - `(5, -76)`, `(53, -52)`, `(58, 63)`, `(61, 52)`, `(85, -76)`
+- **Extreme solution sizes**:
+  - Example: `(D, N) = (61, 52)` produces minimal `(x, y)` with ~200 digits
+- These are not data errors, but true mathematical outliers.
+
+---
+
+## 🧮 Regression & Clustering Models
+
+- **Regression on `(D, N)` → `num_classes`**:
+  - Linear: R² ≈ 0.01
+  - Quadratic: R² ≈ 0.07
+
+- **Clustering (K-means / DBSCAN)** on:
+  - `(D, N)` — separates trivial (no-solution) from solvable, but not by class count.
+  - `(log|x|, log|y|)` — more meaningful clustering by solution size.
 
 ---
 
 ## 🤖 Predictive Modeling
 
-- **Goal**: predict `num_classes` from \((D,N,x,y)\).
-- **Features**:  
-  - \(D\), \(N\), \(\log_{10}|x|\), \(\log_{10}|y|\)  
-- **Models**:
-  - Decision Tree → ~99.7% train/test accuracy  
-  - Random Forest → ~99.9% train/test accuracy  
-- **Caveat**: Very high scores reflect memorization of repeated \((D,N)\) labels. Real‑world generalization to new \((D,N)\) is far harder.
+- **Goal**: Predict `num_classes` using `(D, N, x, y)`-related features.
+- **Features used**: `D`, `N`, `log₁₀|x|`, `log₁₀|y|`
+- **Models & Results**:
+  - Decision Tree: ~99.7% accuracy
+  - Random Forest: ~99.9% accuracy
+- **Note**: These models memorize known `(D, N)` labels. Generalization to unseen inputs remains extremely difficult due to number-theoretic complexity.
 
 ---
 
 ## 💡 Key Insights
 
-- **Unpredictable solution sizes**: Even for adjacent \(D\), minimal solutions can be “tiny” or “huge,” matching classical theory.  
-- **Class count irregularity**: Most solvable equations yield exactly two equivalence classes; higher counts are algebraically special.  
-- **Weak direct predictors**: Neither \(D\) nor \(N\) alone, nor low‑degree combinations, reliably predict class count.  
-- **Memorization risk**: Supervised models excel on known \((D,N)\) but don’t capture underlying number‑theoretic structure.
-
----
-
+- **Minimal solution sizes are unpredictable** — adjacent `D` values may have drastically different-sized solutions.
+- **Most solvable `(D, N)` yield exactly 2 classes**, confirming theoretical predictions.
+- **`D` and `N` alone are weak predictors** of class count or solution size.
+- **Machine learning models can overfit** without truly capturing mathematical structure.
 
 ---
 
 ## 📖 References
 
-1. Robertson, J. P. (2004). _Solving the generalized Pell equation \(x^2 - D y^2 = N\)_.  
-2. Matthews, K. R. (2000). _Diophantine equations \(x^2 - D y^2 = N\)_ (LMM algorithm).  
-3. Niven, Zuckerman & Montgomery (1991). _An Introduction to the Theory of Numbers_.  
-4. Mollin, R. E. (1998). _Fundamental Number Theory with Applications_.
+1. Robertson, J. P. (2004). *Solving the Generalized Pell Equation*.
+2. Matthews, K. R. (2000). *Diophantine Equations and the LMM Algorithm*.
+3. Niven, Zuckerman & Montgomery (1991). *An Introduction to the Theory of Numbers*.
+4. Mollin, R. E. (1998). *Fundamental Number Theory with Applications*.
 
 ---
 
 ## 🚀 Getting Started
 
-1. Clone this repo  
-2. Open the Colab notebooks in `/notebooks/`  
-3. Install required packages:
+1. Clone this repository:
    ```bash
-   pip install pandas numpy matplotlib seaborn scikit-learn
-4. Run cells in order.
-
+   git clone https://github.com/your-username/pell-equation-analysis.git
+   cd pell-equation-analysis
